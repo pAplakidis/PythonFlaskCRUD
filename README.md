@@ -13,7 +13,7 @@ sudo apt install sqlite3
 
 ## Run (Linux/Unix)
 
-In a python shell (if there is not database present in src/instance/):
+In a python shell (if there is no database present in src/instance/):
 ```python
 >>> from app import *
 >>> with app.app_context():
