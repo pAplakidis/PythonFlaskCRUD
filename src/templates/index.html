@@ -13,14 +13,26 @@
 
   {% endif %}
   
-  <table>
+  <form action="/" method="POST">
+    <input type="text" name="search",  id="search", placeholder="Name">
+    <input type="submit" value="Search Person">
+  </form>
+
+  <form action="/" method="POST">
+    <input type="text" name="content",  id="content", placeholder="Name">
+    <input type="submit" value="Add Person">
+  </form>
+
+  <table class="table table-striped">
     <tr>
-      <th>Person</th>
-      <th>Added</th>
-      <th>Actions</th>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Date Added</th>
+      <th scope="col">Actions</th>
     </tr>
     {% for person in people %}
       <tr>
+        <td>{{ person.id }}</td>
         <td>{{ person.content }}</td>
         <td>{{ person.date_added.date() }}</td>
         <td>
@@ -31,10 +43,5 @@
       </tr>
     {% endfor %}
   </table>
-
-  <form action="/" method="POST">
-    <input type="text" name="content" id="content">
-    <input type="submit" value="Add Person">
-  </form>
 </div>
 {% endblock %}

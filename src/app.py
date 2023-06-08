@@ -19,15 +19,31 @@ class Person(db.Model):
 @app.route("/", methods=['POST', 'GET'])
 def index():
   if request.method == 'POST':
-    person_content = request.form['content']
-    new_person = Person(content=person_content)
+    person_content = None
+    search_content = None
+    if 'content' in request.form:
+      person_content = request.form['content']
+    elif 'search' in request.form:
+      search_content = request.form['search']
 
-    try:
-      db.session.add(new_person)
-      db.session.commit()
-      return redirect('/')
-    except:
-      return "Error adding person!"
+    if person_content:
+      new_person = Person(content=person_content)
+
+      try:
+        db.session.add(new_person)
+        db.session.commit()
+        return redirect('/')
+      except:
+        return "Error adding person!"
+    elif search_content:
+      people = []
+      for person in Person.query.all():
+        if search_content in person.content:
+          people.append(person)
+      return render_template('index.html', people=people)
+    else:
+      people = Person.query.order_by(Person.date_added).all()
+      return render_template('index.html', people=people)
   else:
     people = Person.query.order_by(Person.date_added).all()
     return render_template('index.html', people=people)
